@@ -1,0 +1,5 @@
+# Fichiers d'environnement
+.env
+
+# Dépendances Node.js (qu'on n'envoie jamais)
+node_modules
