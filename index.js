@@ -21,9 +21,9 @@ const PORT = 4000; // On choisit 4000 pour l'API (React utilise souvent 3000)
 
 // Route d'inscription
 app.post('/subscription', (req,res) => {
-    const { email, password } = req.body;
+    const { name, firstname, address, zipcode, city, phone,email, usertype, levelexperiency, timerequired, diet, subscription, PaymentMethod, password } = req.body;
 fs.readFile('users.json', 'utf8', async (error, data) => {
-    if (err) {
+    if (error) {
         console.error(err);
         return res.status(500).send('Erreur lors de la lecture des utilisateurs.')
     }
@@ -39,8 +39,20 @@ fs.readFile('users.json', 'utf8', async (error, data) => {
 
     const newUser = {
         id: users.length + 1,
+        name: name,
+        firstname: firstname,
+        address: address,
+        zipcode: zipcode,
+        city: city,
+        phone: phone,
         email: email,
-        password: hashedPassword
+        password: hashedPassword,
+        usertype: usertype,
+        levelexperiency: levelexperiency,
+        timerequired: timerequired,
+        diet: diet,
+        subscription: subscription,
+        PaymentMethod: PaymentMethod,
     };
 
     users.push(newUser);
@@ -54,9 +66,6 @@ fs.readFile('users.json', 'utf8', async (error, data) => {
         res.status(201).send('Utilisateur créé avec succès !')
     })
 })
-    console.log("Requête reçue sur /subscription");
-    console.log("Corps de la requête :", req.body);
-    res.send('Inscription bientôt fonctionnelle !');
 });
 
 app.post('/connexion', async (req,res) => {
@@ -93,9 +102,6 @@ fs.readFile('users.json', 'utf8', async (err, data) => {
         token: token
     })
 })
-    console.log("Requête reçue sur /connexion");
-    console.log("Corps de la requête :", req.body);
-    res.send('Connexion bientôt fonctionnelle !');
 });
 // On met le serveur en écoute sur le port défini
 app.listen(PORT, () => {

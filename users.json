@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "id": 1,
+    "email": "fourdin.pfmg@gmail.com",
+    "password": "$2b$10$L3LBzArTpb97ZOql5A5DHupQhxRCzo0xan3nEnquTWI.VwvrELVaG"
+  },
+  {
+    "id": 2,
+    "email": "fourdin.pfmg+1@gmail.com",
+    "password": "$2b$10$sDAjVMDMuuLfSpHE3RwNTesGjCAlRTKO/RytCMWSISesxZ1rgNeG6"
+  },
+  {
+    "id": 3,
+    "email": "john.doe@gmail.com",
+    "password": "$2b$10$67eh/.JZ6h383FU7EsMVAeaGjvCvb9iO50C8rJ5fkpglvJIfO4BxG"
+  },
+  {
+    "id": 4,
+    "email": "",
+    "password": "$2b$10$GhegsddKVSzfxoOvrQExA../uJGRnJSEWvuuZAkaFx2bIxN8Z75rC"
+  },
+  {
+    "id": 5,
+    "email": "doe.john@gmail.com",
+    "password": "$2b$10$fU7OH6KHqV8Sy288CwbhY.agKJQA9oO7HzdvpOJ0wPG5Tw1OsnaoC"
+  }
+]
