@@ -9,6 +9,7 @@ const app = express();
 const PORT = 4000;
 const filePath = 'users.json';
 const JWT_SECRET = process.env.JWT_SECRET || 'secret_fallback'; // Sécurité minimale
+const exercices = require('./exercices.json');
 
 app.use(cors());
 app.use(express.json());
@@ -137,6 +138,11 @@ app.post('/connexion', async (req, res) => {
 
     res.status(200).json({ message: 'Connexion réussie !', token });
   });
+});
+
+// ✅ route transmission d'information d'exercices.json
+app.get('/api/exercices', async (req, res) => {
+  res.json({results: exercices });
 });
 
 // ✅ Lancement du serveur
