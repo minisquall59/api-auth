@@ -1,17 +1,24 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
+const fs = require('fs').promises;
+const path = require('path');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
+const { OAuth2Client } = require('google-auth-library');
 
 const app = express();
 const PORT = 4000;
-const filePath = 'users.json';
-const JWT_SECRET = process.env.JWT_SECRET || 'secret_fallback'; // Sécurité minimale
+const filePath = path.join(__dirname, 'users.json');
+const JWT_SECRET = process.env.JWT_SECRET || 'secret_fallback';
+const CLIENT_ID = process.env.CLIENT_ID || 'idclient_fallback';
+const client = new OAuth2Client(CLIENT_ID);
+
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 // ✅ Route d’inscription
 app.post('/subscription', (req, res) => {
@@ -137,6 +144,59 @@ app.post('/connexion', async (req, res) => {
 
     res.status(200).json({ message: 'Connexion réussie !', token });
   });
+});
+
+// ✅ Route Google Callback
+app.post('/api/auth/google-login', async (req, res) => {
+const { credential } = req.body;
+try {
+  const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: CLIENT_ID,
+        });
+  console.log(ticket)
+  const payload = ticket.getPayload();
+  const userEmail = payload.email;
+  const userName = payload.name;
+  let users = []
+
+  try{
+    const data = await fs.readFile(filePath, 'utf8');
+    users = JSON.parse(data);
+  } catch (readError) {
+    console.log("Fichier users.json non trouvé, il sera créé.");
+  }
+
+  let user = users.find(u => u.email === userEmail);
+  console.log(user)
+
+  if (user) {
+    console.log("Utilisateur trouvé (Connexion):", user.email);
+  } else {
+    console.log("Nouvel utilisateur (Inscription):", userEmail);
+    const newUser = {
+                id: users.length + 1, // (un ID simple pour l'exemple)
+                email: userEmail,
+                name: userName,
+                adresse: null, // Les champs sont vides par défaut
+                phone: null
+            };
+            users.push(newUser);
+            await fs.writeFile(filePath, JSON.stringify(users, null, 2));
+            user = newUser;
+       }
+       const notreToken = jwt.sign(
+            { id: user.id, email: user.email }, // Ce qu'on stocke dans le jeton
+            JWT_SECRET,                          // Le secret pour signer
+            { expiresIn: '1h' }                  // Durée de validité
+        );
+
+        res.json({ token: notreToken });
+
+    } catch (error) {
+        console.error("Échec de l'authentification Google", error);
+        res.status(401).json({ error: "Authentification échouée" });
+    }
 });
 
 // ✅ Lancement du serveur
