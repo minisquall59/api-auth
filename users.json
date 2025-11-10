@@ -23,5 +23,21 @@
     "id": 5,
     "email": "doe.john@gmail.com",
     "password": "$2b$10$fU7OH6KHqV8Sy288CwbhY.agKJQA9oO7HzdvpOJ0wPG5Tw1OsnaoC"
+  },
+  {
+    "id": 6,
+    "name": "michu",
+    "firstname": "mireille",
+    "address": "12 rue de la tasse",
+    "zipcode": "59200",
+    "city": "tourcoing",
+    "phone": "0102030405",
+    "email": "michu.mireille@gmail.com",
+    "password": "$2b$10$oXJjBOqjpeizoeG8ro3RSe5l/1dI41UCNr0KkAJ8F7K.cJaM/xDFe",
+    "usertype": "Professionnel",
+    "levelexperiency": "Intermédiaire",
+    "timerequired": "01:00",
+    "diet": "Sans restriction",
+    "subscription": "Pro"
   }
 ]
