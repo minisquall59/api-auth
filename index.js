@@ -146,6 +146,11 @@ app.post('/connexion', async (req, res) => {
   });
 });
 
+// ✅ route transmission d'information d'exercices.json
+app.get('/api/exercices', async (req, res) => {
+  res.json({results: exercices });
+});
+
 // ✅ Route Google Callback
 app.post('/api/auth/google-login', async (req, res) => {
 const { credential } = req.body;
@@ -198,6 +203,7 @@ try {
         res.status(401).json({ error: "Authentification échouée" });
     }
 });
+
 
 // ✅ Lancement du serveur
 app.listen(PORT, () => {
