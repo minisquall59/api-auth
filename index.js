@@ -175,10 +175,10 @@ try {
   } else {
     console.log("Nouvel utilisateur (Inscription):", userEmail);
     const newUser = {
-                id: users.length + 1, // (un ID simple pour l'exemple)
+                id: users.length + 1,
                 email: userEmail,
                 name: userName,
-                adresse: null, // Les champs sont vides par défaut
+                adresse: null,
                 phone: null
             };
             users.push(newUser);
