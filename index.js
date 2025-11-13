@@ -40,6 +40,8 @@ const readUsers = async () => {
 const writeUsers = async (users) => {
   await fs.writeFile(filePath, JSON.stringify(users, null, 2));
 };
+
+
 // 📍 NOUVELLE ROUTE : Récupérer un utilisateur par son ID
 app.get('/api/users/:id', async (req, res) => {
   const idToFind = Number(req.params.id);
@@ -234,6 +236,56 @@ app.post('/api/auth/google-login', async (req, res) => {
     console.error("Échec de l'authentification Google", error);
     res.status(401).json({ error: "Authentification échouée" });
   }
+});
+// 📍 NOUVELLE ROUTE : Toggle Favorite
+app.patch('/api/:userId/favorites', async (req, res) => {
+
+  const {userId} = req.params;
+  const { exerciseId } = req.body;
+
+  if(!exerciseId) {
+    return res.status(400).send({ message: "L'ID de l'exercice est manquant."});
+  }
+
+  try {
+    const data = await fs.readFile('users.json', 'utf8');
+    let users = JSON.parse(data)
+    let userFound = false;
+    const updatedUsers = users.map(user => {
+      if (user.id === userId) {
+        userFound = true;
+          if (!user.favoriteExercices) {
+            user.favoriteExercices = [];
+          }
+          const exerciseIndex = user.favoriteExercices.indexOf(exerciseId);
+
+          if (exerciseIndex > -1) {
+            user.favoriteExercices.splice(exerciseIndex, 1)
+          } else {
+            user.favoriteExercices.push(exerciseId);
+          }
+      }
+      return user;
+    });
+    if (!userFound) {
+      return res.status(404).send({ message: "Utilisateur non trouvé." })
+    }
+
+    await fs.writeFile('users.json', JSON.stringify(updatedUsers, null,2), 'utf-8');
+
+    const userToReturn = updatedUsers.find((user) => user.id === userId)
+
+    if (userToReturn) {
+    res.status(200).send(userToReturn);
+    } else {
+    
+    res.status(404).send({ message: "Utilisateur non trouvé après mise à jour." });
+    }
+
+  } catch (error) {
+      console.error("Erreur lors de la mise à jour des favoris :", error);
+      res.status(500).send({ message: "Erreur du serveur." });
+  }
 });
 
 
