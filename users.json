@@ -2,7 +2,19 @@
   {
     "id": 1,
     "email": "fourdin.pfmg@gmail.com",
-    "password": "$2b$10$L3LBzArTpb97ZOql5A5DHupQhxRCzo0xan3nEnquTWI.VwvrELVaG"
+    "password": "$2b$10$L3LBzArTpb97ZOql5A5DHupQhxRCzo0xan3nEnquTWI.VwvrELVaG",
+    "name": "Fourdin",
+    "firstname": "Pierre",
+    "Address": "113 rue jean jaurès",
+    "zipcode": "59590",
+    "city": "Raismes",
+    "usertype": "Personnel",
+    "phone": "0320459530",
+    "address": "113 rue jean jaurès",
+    "diet": "Pescétarisme",
+    "levelexperiency": "Debutant",
+    "timerequired": "01:00",
+    "subscription": "Pro"
   },
   {
     "id": 2,
